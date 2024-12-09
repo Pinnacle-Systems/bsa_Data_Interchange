@@ -10,17 +10,13 @@ export const dbGetDatabase = {
     connectString: "203.95.216.155:1555/AVT05p",
 
 };
-export const dbPushDataBase = {
-    user: "PSSPAYROLL",
-    password: "PSSPAYROLL_OCT2024",
-    connectString: "103.125.155.220:1555/AN01P",
-};
 
-// export const dbPushDataBase = {
-//     user: "PAYLNK",
-//     password: "log",
-//     connectString: "192.168.1.73:1521/xe1",
-// };
+
+export const dbPushDataBase = {
+    user: "PAYLNK",
+    password: "log",
+    connectString: "192.168.1.73:1521/xe1",
+};
 
 
 export async function getConnect(dbConfig) {
