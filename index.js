@@ -62,7 +62,7 @@ async function main() {
         console.log(pushQuery, 'getQuery');
         connection2 = await getConnect(dbPushDataBase)
 
-        // await getRes(connection1, deleteQuery);
+        await getRes(connection1, deleteQuery);
 
         await getRes(connection2, pushQuery);
         await connection2.commit();
