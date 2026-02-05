@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model OrderAllowDetInt {
+  id              Int       @id @default(autoincrement())
+  srnNo           BigInt?
+  erp_no          String?
+  orderdate       DateTime?
+  product_type    String?
+  style_no        String?
+  colour          String?
+  sizes           String?
+  po_no           String?
+  po_date         DateTime?
+  unit_of_measure String?
+  confirm_qty     Float?
+  extrapolation   Float?
+  order_qty       Float?
+  customer_name   String?
+  delivery_date   DateTime?
+  season          String?
+  product_desc    String?
+  ordertime       String?
+  item_no         Float?
+  articlecode     String?
+  INSEAM          String?
+  description     String?
+  country_desc    String?
+  sam             Float?
+  Recd_Date       DateTime?
+  ISCOMPLETE      Boolean?
+}
+
+model FabricINT {
+  id            Int       @id @default(autoincrement())
+  srnNo         BigInt?
+  unit_code1    String?
+  material_dc   String?
+  item_no       Float?
+  color         String?
+  posting_date  DateTime?
+  entry_date    DateTime?
+  entry_time    Float?
+  user_id       Int?
+  qty           Float?
+  uom           String?
+  roll_no       String?
+  material      String?
+  material_desc String?
+  movement_type Float?
+  unit_code     Float?
+  location      String?
+  Supplier_code String?
+  supplier_name String?
+  Recd_Date     DateTime?
+  shade         String?
+  gsm           Float?
+  roll_length   Float?
+  length_mtrs   Float?
+  actual_width  Float?
+  sh_length     Float?
+  sh_width      Float?
+  grouping      String?
+  customer_name String?
+  style_no      String?
+}
