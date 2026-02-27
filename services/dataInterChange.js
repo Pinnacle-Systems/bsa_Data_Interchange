@@ -83,19 +83,22 @@ export const orderAllowedDetailsQuery = async (connection) => {
 
 
         const updateQuery1 = await constructUpdateQuery1(unFlateDataorderallowdetint, "erp_no");
-        const { query } = updateQuery1;
+        if (updateQuery1) {
+            const { query } = updateQuery1;
 
 
 
-        const result = await prisma.$transaction(async (tx) => {
-            const resut = await tx.OrderAllowDetInt.createMany({
-                data: mapped,
+            const result = await prisma.$transaction(async (tx) => {
+                const resut = await tx.OrderAllowDetInt.createMany({
+                    data: mapped,
+                })
+                await updateIsCompleteFlag(connection, query);
             })
-            await updateIsCompleteFlag(connection, query);
-        })
 
 
-        return result;
+            return result;
+        }
+
     } catch (e) {
         connection.rollback()
     }
@@ -110,6 +113,7 @@ export const FabricDetailsQuery = async (connection) => {
 
 
     let getDatagetFabricIntQuery = await getRes(connection, getFabricIntQuery);
+
 
     let unFlatDatagetFabricIntQuery = getDatagetFabricIntQuery?.rows?.map((po) => ({
         srnNo: po[0],
@@ -183,19 +187,24 @@ export const FabricDetailsQuery = async (connection) => {
 
 
 
+    console.log(unFlatDatagetFabricIntQuery, "unFlatDatagetFabricIntQuery")
     const updateQuery2 = await constructUpdateQuery2(unFlatDatagetFabricIntQuery, "srnNo");
-    const { query } = updateQuery2;
+    if (updateQuery2) {
+        const { query } = updateQuery2;
 
 
-    const result = await prisma.$transaction(async (tx) => {
-        const resut = await tx.FabricINT.createMany({
-            data: mapped,
+        const result = await prisma.$transaction(async (tx) => {
+            const resut = await tx.FabricINT.createMany({
+                data: mapped,
+            })
+            await updateIsCompleteFlag(connection, query);
+
         })
-        await updateIsCompleteFlag(connection, query);
+        return result;
 
-    })
+    }
 
 
 
-    return result;
+
 };
