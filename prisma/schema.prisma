@@ -76,4 +76,6 @@ model FabricINT {
   grouping      String?
   customer_name String?
   style_no      String?
+  erp_no          String?
+
 }
