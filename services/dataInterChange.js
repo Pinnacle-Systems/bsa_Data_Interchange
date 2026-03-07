@@ -83,21 +83,21 @@ export const orderAllowedDetailsQuery = async (connection) => {
 
 
         const updateQuery1 = await constructUpdateQuery1(unFlateDataorderallowdetint, "erp_no");
-        // if (updateQuery1) {
-        //     const { query } = updateQuery1;
+        if (updateQuery1) {
+            const { query } = updateQuery1;
 
 
 
-        //     const result = await prisma.$transaction(async (tx) => {
-        //         const resut = await tx.OrderAllowDetInt.createMany({
-        //             data: mapped,
-        //         })
-        //         await updateIsCompleteFlag(connection, query);
-        //     })
+            const result = await prisma.$transaction(async (tx) => {
+                const resut = await tx.OrderAllowDetInt.createMany({
+                    data: mapped,
+                })
+                await updateIsCompleteFlag(connection, query);
+            })
 
 
-        //     return result;
-        // }
+            return result;
+        }
 
     } catch (e) {
         connection.rollback()
@@ -146,7 +146,7 @@ export const FabricDetailsQuery = async (connection) => {
         grouping: po[27],
         customer_name: po[28],
         style_no: po[29],
-        erp_no : po[31]
+        erp_no: po[31]
 
     }));
 
@@ -184,7 +184,7 @@ export const FabricDetailsQuery = async (connection) => {
         grouping: item.grouping ? item.grouping : null,
         customer_name: item.customer_name ? item.customer_name : null,
         style_no: item.style_no ? item.style_no : null,
-        erp_no : item?.erp_no ? item?.erp_no : null
+        erp_no: item?.erp_no ? item?.erp_no : null
     }));
 
 
@@ -196,20 +196,20 @@ export const FabricDetailsQuery = async (connection) => {
 
 
 
-    // if (updateQuery2) {
-    //     const { query } = updateQuery2;
+    if (updateQuery2) {
+        const { query } = updateQuery2;
 
 
-    //     const result = await prisma.$transaction(async (tx) => {
-    //         const resut = await tx.FabricINT.createMany({
-    //             data: mapped,
-    //         })
-    //         await updateIsCompleteFlag(connection, query);
+        const result = await prisma.$transaction(async (tx) => {
+            const resut = await tx.FabricINT.createMany({
+                data: mapped,
+            })
+            await updateIsCompleteFlag(connection, query);
 
-    //     })
-    //     return result;
+        })
+        return result;
 
-    // }
+    }
 
 
 
