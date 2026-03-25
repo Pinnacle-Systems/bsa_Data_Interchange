@@ -3,7 +3,7 @@ import { dbGetDatabase, dbPushDataBase, getConnect } from "./db.connection.js";
 import { getSubscriptionDetails } from "./utils/subscriptionCall.js";
 import fs from 'fs'
 import "dotenv/config";
-import { FabricDetailsQuery, orderAllowedDetailsQuery } from "./services/dataInterChange.js";
+import { BomIntcDetailsQuery, CmtIntcDetailsQuery, FabricDetailsQuery, orderAllowedDetailsQuery } from "./services/dataInterChange.js";
 
 
 
@@ -91,6 +91,59 @@ export async function constructUpdateQuery2(resp, field) {
 
 
 
+export async function constructUpdateQuery3(resp, field) {
+    const ids = [
+        ...new Set(
+            resp
+                .map(item => item[field])
+                .filter(v => v !== undefined && v !== null)
+        )
+    ];
+
+    if (!ids.length) return null;
+    console.log(ids, "unique CMTINT");
+
+
+    const inClause = ids.map(id => `'${id}'`).join(', ');
+
+
+
+
+    const updateQuery = `
+    UPDATE CMTINT
+    SET ISCOMPLETE = 1 
+    WHERE "SR NO" IN (${inClause})
+  `;
+
+    return { query: updateQuery, values: ids };
+}
+
+export async function constructUpdateQuery4(resp, field) {
+    const ids = [
+        ...new Set(
+            resp
+                .map(item => item[field])
+                .filter(v => v !== undefined && v !== null)
+        )
+    ];
+
+    if (!ids.length) return null;
+    console.log(ids, "unique BOMINT");
+
+
+    const inClause = ids.map(id => `'${id}'`).join(', ');
+
+
+
+
+    const updateQuery = `
+    UPDATE BOMINT
+    SET ISCOMPLETE = 1 
+    WHERE "SRNO" IN (${inClause})
+  `;
+
+    return { query: updateQuery, values: ids };
+}
 
 const formatValue = (value, index, metaData) => {
 
@@ -130,9 +183,13 @@ async function main() {
         
 
 
-        await orderAllowedDetailsQuery(connection1)
-        await FabricDetailsQuery(connection1)
+        // await orderAllowedDetailsQuery(connection1)
+        // await FabricDetailsQuery(connection1)
 
+
+        await CmtIntcDetailsQuery(connection1)
+
+        await BomIntcDetailsQuery(connection1)
 
 
 

@@ -76,6 +76,39 @@ model FabricINT {
   grouping      String?
   customer_name String?
   style_no      String?
-  erp_no          String?
+  erp_no        String?
+}
 
+model CMTINT {
+  id           Int     @id @default(autoincrement())
+  srnNo        BigInt?
+  erp_no       String?
+  resouce_code String?
+  code         String?
+  description  String?
+  style_no     String?
+  budget_eff   String?
+  sam          String?
+  ISCOMPLETE   String?
+}
+
+model BOMINT {
+  id                 Int     @id @default(autoincrement())
+  srnNo              String?
+  unit_code          String?
+  erp_no             String?
+  article_code       String?
+  style_no           String?
+  colour             String?
+  size               String?
+  inseam             String?
+  garment_uom        String?
+  fabric_code        String?
+  fabric_desc        String?
+  fabric_colour      String?
+  fabric_supplier    String?
+  fabric_type        String?
+  fabric_consumption String?
+  fabric_uom         String?
+  recd_date          String?
 }

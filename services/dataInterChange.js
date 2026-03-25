@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { constructUpdateQuery1, constructUpdateQuery2, getRes, updateIsCompleteFlag } from '../index.js';
+import { constructUpdateQuery1, constructUpdateQuery2, constructUpdateQuery3, constructUpdateQuery4, getRes, updateIsCompleteFlag } from '../index.js';
 const prisma = new PrismaClient();
 
 
@@ -9,6 +9,10 @@ const prisma = new PrismaClient();
 const getorderallowdetintQuery = `SELECT * FROM orderallowdetint WHERE ISCOMPLETE = 0 `
 
 const getFabricIntQuery = ` SELECT * FROM FabricINT WHERE ISCOMPLETE = 0 `
+
+const getCmtIntQuery = `SELECT * FROM CMTINT WHERE ISCOMPLETE = 0 or ISCOMPLETE IS NULL `
+
+const getBomIntQuery = `SELECT * FROM BOMINT WHERE ISCOMPLETE = 0 or ISCOMPLETE IS NULL `
 
 
 
@@ -204,6 +208,151 @@ export const FabricDetailsQuery = async (connection) => {
             const resut = await tx.FabricINT.createMany({
                 data: mapped,
             })
+            await updateIsCompleteFlag(connection, query);
+
+        })
+        return result;
+
+    }
+
+
+
+
+};
+
+
+export const CmtIntcDetailsQuery = async (connection) => {
+
+
+    let getDatagetCmtIntQuery = await getRes(connection, getCmtIntQuery);
+
+
+    let unFlatDatagetCmtIntQuery = getDatagetCmtIntQuery?.rows?.map((po) => ({
+        srnNo: po[0],
+        erp_no: po[1],
+        resouce_code: po[2],
+        code: po[3],
+        description: po[4],
+        style_no: po[5],
+        budget_eff: po[6],
+        sam: po[7],
+        ISCOMPLETE: po[8],
+
+    }));
+
+
+
+
+    console.log(unFlatDatagetCmtIntQuery, "unFlatDatagetCmtIntQuery")
+    const updateQuery3 = await constructUpdateQuery3(unFlatDatagetCmtIntQuery, "srnNo");
+
+    const mapped = unFlatDatagetCmtIntQuery?.map(item => ({
+
+
+
+        srnNo: item.srnNo ? parseInt(item.srnNo) : null,
+        erp_no: item.erp_no ? item.erp_no : null,
+        resouce_code: item.resouce_code ? item.resouce_code : null,
+        code: item.code ? item.code : null,
+        description: item.description ? item.description : null,
+        style_no: item.style_no ? item.style_no : null,
+        budget_eff: item.budget_eff ? item.budget_eff : null,
+        sam: item.sam ? item.sam : null,
+
+    }));
+
+
+
+    if (updateQuery3) {
+        const { query } = updateQuery3;
+
+
+        const result = await prisma.$transaction(async (tx) => {
+            const resut = await tx.CMTINT.createMany({
+                data: mapped,
+            })
+            await updateIsCompleteFlag(connection, query);
+
+        })
+        return result;
+
+    }
+
+
+
+
+};
+
+export const BomIntcDetailsQuery = async (connection) => {
+
+
+    let getDatagetBomIntQuery = await getRes(connection, getBomIntQuery);
+
+
+    let unFlatDatagetBomIntQuery = getDatagetBomIntQuery?.rows?.map((po) => ({
+        srnNo: po[0],
+        unit_code: po[1],
+        erp_no: po[2],
+        article_code: po[3],
+        style_no: po[4],
+        colour: po[5],
+        size: po[6],
+        inseam: po[7],
+        garment_uom: po[8],
+        fabric_code: po[9],
+        fabric_desc: po[10],
+        fabric_colour: po[11],
+        fabric_supplier: po[12],
+        fabric_type: po[13],
+        fabric_consumption: po[14],
+        fabric_uom: po[15],
+        recd_date: po[16],
+
+
+
+    }));
+
+
+    console.log(unFlatDatagetBomIntQuery, "unFlatDatagetBOMIntQuery")
+
+
+    const updateQuery4 = await constructUpdateQuery4(unFlatDatagetBomIntQuery, "srnNo");
+
+    const mapped = unFlatDatagetBomIntQuery?.map(item => ({
+        srnNo: item.srnNo ? String(item.srnNo) : null,
+        unit_code: item.unit_code ? item.unit_code : null,
+        erp_no: item.erp_no ? item.erp_no : null,
+        article_code: item.article_code ? item.article_code : null,
+        style_no: item.style_no ? item.style_no : null,
+        colour: item.colour ? item.colour : null,
+        size: item.size ? item.size : null,
+        inseam: item.inseam ? item?.inseam : null,
+        garment_uom: item.garment_uom ? item.garment_uom : null,
+        fabric_code: item.fabric_code ? item.fabric_code : null,
+        fabric_desc: item.fabric_desc ? item.fabric_desc : null,
+        fabric_colour: item.fabric_colour ? item.fabric_colour : null,
+        fabric_supplier: item.fabric_supplier ? item.fabric_supplier : null,
+        fabric_type: item.fabric_type ? item.fabric_type : null,
+        fabric_consumption: item.fabric_consumption ? String(item.fabric_consumption) : null,
+        fabric_uom: item.fabric_uom ? item.fabric_uom : null,
+        recd_date: item.recd_date ? item.recd_date : null,
+    }));
+
+
+
+
+
+
+
+    if (updateQuery4) {
+        const { query } = updateQuery4;
+
+
+        const result = await prisma.$transaction(async (tx) => {
+            const resut = await tx.BOMINT.createMany({
+                data: mapped,
+            })
+            console.log(resut,"resut")
             await updateIsCompleteFlag(connection, query);
 
         })
