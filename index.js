@@ -183,8 +183,8 @@ async function main() {
         
 
 
-        // await orderAllowedDetailsQuery(connection1)
-        // await FabricDetailsQuery(connection1)
+        await orderAllowedDetailsQuery(connection1)
+        await FabricDetailsQuery(connection1)
 
 
         await CmtIntcDetailsQuery(connection1)
