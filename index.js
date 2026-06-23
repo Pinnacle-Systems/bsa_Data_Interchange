@@ -48,17 +48,21 @@ export async function constructUpdateQuery1(resp, field) {
                 .filter(v => v !== undefined && v !== null)
         )
     ];
-    const inClause = ids.map(id => `'${id}'`).join(', ');
-    console.log(ids, "unique orderallowdetint");
+    console.log(ids.length, "unique orderallowdetint");
 
     if (!ids.length) return null;
 
-    const updateQuery = `
+    const queries = [];
+    for (let i = 0; i < ids.length; i += 1000) {
+        const inClause = ids.slice(i, i + 1000).map(id => `'${id}'`).join(', ');
+        queries.push(`
     UPDATE orderallowdetint
     SET ISCOMPLETE = 1
     WHERE "erp_no" IN (${inClause})
-  `;
-    return { query: updateQuery, values: ids };
+  `);
+    }
+
+    return { queries, values: ids };
 }
 
 
@@ -72,21 +76,19 @@ export async function constructUpdateQuery2(resp, field) {
     ];
 
     if (!ids.length) return null;
-    console.log(ids, "unique FabricINT");
+    console.log(ids.length, "unique FabricINT");
 
-
-    const inClause = ids.map(id => `'${id}'`).join(', ');
-
-
-
-
-    const updateQuery = `
+    const queries = [];
+    for (let i = 0; i < ids.length; i += 1000) {
+        const inClause = ids.slice(i, i + 1000).map(id => `'${id}'`).join(', ');
+        queries.push(`
     UPDATE FabricINT
     SET ISCOMPLETE = 1 
     WHERE "srno" IN (${inClause})
-  `;
+  `);
+    }
 
-    return { query: updateQuery, values: ids };
+    return { queries, values: ids };
 }
 
 
@@ -101,21 +103,19 @@ export async function constructUpdateQuery3(resp, field) {
     ];
 
     if (!ids.length) return null;
-    console.log(ids, "unique CMTINT");
+    console.log(ids.length, "unique CMTINT");
 
-
-    const inClause = ids.map(id => `'${id}'`).join(', ');
-
-
-
-
-    const updateQuery = `
+    const queries = [];
+    for (let i = 0; i < ids.length; i += 1000) {
+        const inClause = ids.slice(i, i + 1000).map(id => `'${id}'`).join(', ');
+        queries.push(`
     UPDATE CMTINT
     SET ISCOMPLETE = 1 
     WHERE "SR NO" IN (${inClause})
-  `;
+  `);
+    }
 
-    return { query: updateQuery, values: ids };
+    return { queries, values: ids };
 }
 
 export async function constructUpdateQuery4(resp, field) {
@@ -128,21 +128,19 @@ export async function constructUpdateQuery4(resp, field) {
     ];
 
     if (!ids.length) return null;
-    console.log(ids, "unique BOMINT");
+    console.log(ids.length, "unique BOMINT");
 
-
-    const inClause = ids.map(id => `'${id}'`).join(', ');
-
-
-
-
-    const updateQuery = `
+    const queries = [];
+    for (let i = 0; i < ids.length; i += 1000) {
+        const inClause = ids.slice(i, i + 1000).map(id => `'${id}'`).join(', ');
+        queries.push(`
     UPDATE BOMINT
     SET ISCOMPLETE = 1 
     WHERE "SRNO" IN (${inClause})
-  `;
+  `);
+    }
 
-    return { query: updateQuery, values: ids };
+    return { queries, values: ids };
 }
 
 const formatValue = (value, index, metaData) => {

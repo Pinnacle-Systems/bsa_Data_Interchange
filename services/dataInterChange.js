@@ -88,7 +88,7 @@ export const orderAllowedDetailsQuery = async (connection) => {
 
         const updateQuery1 = await constructUpdateQuery1(unFlateDataorderallowdetint, "erp_no");
         if (updateQuery1) {
-            const { query } = updateQuery1;
+            const { queries } = updateQuery1;
 
 
 
@@ -96,7 +96,9 @@ export const orderAllowedDetailsQuery = async (connection) => {
                 const resut = await tx.OrderAllowDetInt.createMany({
                     data: mapped,
                 })
-                await updateIsCompleteFlag(connection, query);
+                for (const q of queries) {
+                    await updateIsCompleteFlag(connection, q);
+                }
             })
 
 
@@ -201,14 +203,16 @@ export const FabricDetailsQuery = async (connection) => {
 
 
     if (updateQuery2) {
-        const { query } = updateQuery2;
+        const { queries } = updateQuery2;
 
 
         const result = await prisma.$transaction(async (tx) => {
             const resut = await tx.FabricINT.createMany({
                 data: mapped,
             })
-            await updateIsCompleteFlag(connection, query);
+            for (const q of queries) {
+                await updateIsCompleteFlag(connection, q);
+            }
 
         })
         return result;
@@ -264,14 +268,16 @@ export const CmtIntcDetailsQuery = async (connection) => {
 
 
     if (updateQuery3) {
-        const { query } = updateQuery3;
+        const { queries } = updateQuery3;
 
 
         const result = await prisma.$transaction(async (tx) => {
             const resut = await tx.CMTINT.createMany({
                 data: mapped,
             })
-            await updateIsCompleteFlag(connection, query);
+            for (const q of queries) {
+                await updateIsCompleteFlag(connection, q);
+            }
 
         })
         return result;
@@ -345,7 +351,7 @@ export const BomIntcDetailsQuery = async (connection) => {
 
 
     if (updateQuery4) {
-        const { query } = updateQuery4;
+        const { queries } = updateQuery4;
 
 
         const result = await prisma.$transaction(async (tx) => {
@@ -353,7 +359,9 @@ export const BomIntcDetailsQuery = async (connection) => {
                 data: mapped,
             })
             console.log(resut,"resut")
-            await updateIsCompleteFlag(connection, query);
+            for (const q of queries) {
+                await updateIsCompleteFlag(connection, q);
+            }
 
         })
         return result;
